@@ -2,3 +2,5 @@
 build
 dist
 PythonTodo.spec
+tasks.json
+__pycache__
