@@ -18,13 +18,14 @@ class ToDoApp(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Meine To-Do-Liste")
-        self.setGeometry(100, 100, 400, 500)  # x, y, Breite, Höhe
+        self.setGeometry(100, 100, 400, 500)
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
         main_layout = QVBoxLayout(central_widget)
 
+        # Widgets
         self.task_input = QLineEdit()
         self.task_input.setPlaceholderText("Neue Aufgabe hier eingeben...")
 
@@ -34,18 +35,15 @@ class ToDoApp(QMainWindow):
 
         self.delete_button = QPushButton("Löschen")
 
-        # --- Layout für den Eingabebereich ---
-        # Ein horizontales Layout (QHBoxLayout) für das Eingabefeld und den Hinzufügen-Button.
         input_layout = QHBoxLayout()
         input_layout.addWidget(self.task_input)
         input_layout.addWidget(self.add_button)
 
-        # --- Widgets zum Hauptlayout hinzufügen ---
-        main_layout.addLayout(input_layout)  # Fügt das horizontale Layout oben hinzu
+        main_layout.addLayout(input_layout)
         main_layout.addWidget(self.task_list)
         main_layout.addWidget(self.delete_button)
 
-        # --- Signale mit Slots verbinden (Event-Handling) ---
+        # --- Signals ---
         self.add_button.clicked.connect(self.add_task)
         self.delete_button.clicked.connect(self.delete_task)
         self.task_input.returnPressed.connect(self.add_task)
@@ -58,7 +56,7 @@ class ToDoApp(QMainWindow):
             self.task_input.clear()
         else:
             msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Warning)
+            msg_box.setIcon(QMessageBox.Icon.Warning)
             msg_box.setText("Das Eingabefeld ist leer.")
             msg_box.setInformativeText(
                 "Bitte geben Sie eine Aufgabe ein, um sie hinzuzufügen."
@@ -67,17 +65,13 @@ class ToDoApp(QMainWindow):
             msg_box.exec()
 
     def delete_task(self):
-        selected_item = (
-            self.task_list.currentItem()
-        )  # Das aktuell ausgewählte Element abrufen
+        selected_item = self.task_list.currentItem()
 
         if selected_item:
-            # Das Element aus der Liste entfernen. takeItem gibt das Element zurück und entfernt es.
             self.task_list.takeItem(self.task_list.row(selected_item))
         else:
-            # Optional: Eine Meldung anzeigen, wenn keine Aufgabe zum Löschen ausgewählt wurde.
             msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Information)
+            msg_box.setIcon(QMessageBox.Icon.Information)
             msg_box.setText("Keine Aufgabe ausgewählt.")
             msg_box.setInformativeText(
                 "Bitte wählen Sie eine Aufgabe aus der Liste aus, die Sie löschen möchten."
